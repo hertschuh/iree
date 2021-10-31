@@ -507,3 +507,33 @@ iree_status_t iree_tooling_create_context_from_flags(
   IREE_TRACE_ZONE_END(z0);
   return status;
 }
+
+// DO NOT SUBMIT
+// This is here just because this file is linked in to all tools.
+// -DIREE_HAL_EXECUTABLE_IMPORT_PROVIDER_DEFAULT_FN=iree_hal_test_import_provider
+// is what switches this on for the default registration functions.
+
+static int iree_debug_print_cstring(void* params) {
+  const char* string = (const char*)params;
+  fprintf(stdout, "%s", string);
+  fflush(stdout);
+  return 0;
+}
+
+static iree_status_t iree_hal_test_import_provider_resolve(
+    void* self, iree_string_view_t symbol_name, void** out_fn_ptr) {
+  if (iree_string_view_equal(symbol_name,
+                             IREE_SV("iree_debug_print_cstring"))) {
+    *out_fn_ptr = iree_debug_print_cstring;
+    return iree_ok_status();
+  }
+  return iree_status_from_code(IREE_STATUS_NOT_FOUND);
+}
+
+iree_hal_executable_import_provider_t iree_hal_test_import_provider(void) {
+  iree_hal_executable_import_provider_t import_provider = {
+      .self = NULL,
+      .resolve = iree_hal_test_import_provider_resolve,
+  };
+  return import_provider;
+}
