@@ -21,6 +21,11 @@ iree_cc_library(
     ::BufferizationInterfaces
     ::PartitionableLoopsInterface
     ::ProcessorOpInterfaces
+    
+    ${MAYBE_TPP_LIB}
+    TPPLinalgXDialect
+    TPPLinalgXTransformOps
+
     IREELinalgExtTransformOps
     IREELinalgTransformDialect
     MLIRLinalgTransformOps
@@ -40,6 +45,10 @@ iree_cc_library(
   SRCS
     "BufferizationInterfaces.cpp"
   DEPS
+    ${MAYBE_TPP_LIB}
+    TPPLinalgXDialect
+    TPPLinalgXTransformOps
+    
     IREELinalgExtDialect
     MLIRArithmeticTransforms
     MLIRBufferizationDialect

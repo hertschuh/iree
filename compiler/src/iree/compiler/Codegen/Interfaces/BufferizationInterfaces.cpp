@@ -6,6 +6,10 @@
 
 #include "iree/compiler/Codegen/Interfaces/BufferizationInterfaces.h"
 
+// TODO: Should be tpp/ but OTOH we graduate by either upstreaming ops or
+// passing through LinalgExt, so this is really a temporary crutch that
+// won't land in IREE.
+#include "Standalone/Dialect/LinalgX/BufferizableOpInterfaceImpl.h"
 #include "iree-dialects/Dialect/LinalgExt/IR/LinalgExtDialect.h"
 #include "iree-dialects/Dialect/LinalgExt/IR/LinalgExtOps.h"
 #include "iree/compiler/Dialect/Flow/IR/FlowDialect.h"
@@ -405,6 +409,7 @@ void registerBufferizationInterfaces(DialectRegistry &registry) {
       registry);
   tensor::registerBufferizableOpInterfaceExternalModels(registry);
   vector::registerBufferizableOpInterfaceExternalModels(registry);
+  linalgx::registerBufferizableOpInterfaceExternalModels(registry);
 
   // Register IREE operations.
   registry.addExtension(
@@ -429,6 +434,12 @@ void registerBufferizationInterfaces(DialectRegistry &registry) {
         IREE::LinalgExt::TopkOp::attachInterface<
             LinalgExtOpInterface<IREE::LinalgExt::TopkOp>>(*ctx);
       });
+  // Register TPP operations.
+  // registry.addExtension(
+  //     +[](MLIRContext *ctx, IREE::LinalgExt::IREELinalgExtDialect *dialect) {
+  //       IREE::LinalgExt::ReverseOp::attachInterface<
+  //           LinalgExtOpInterface<IREE::LinalgExt::ReverseOp>>(*ctx);
+  //     });
 }
 
 }  // namespace iree_compiler

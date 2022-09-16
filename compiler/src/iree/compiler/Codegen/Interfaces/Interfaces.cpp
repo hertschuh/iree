@@ -6,6 +6,10 @@
 
 #include "iree/compiler/Codegen/Interfaces/Interfaces.h"
 
+// TODO: Should be tpp/ but OTOH we graduate by either upstreaming ops or
+// passing through LinalgExt, so this is really a temporary crutch that
+// won't land in IREE.
+#include "Standalone/Dialect/LinalgX/TransformOps/LinalgXTransformOps.h"
 #include "iree/compiler/Codegen/Interfaces/BufferizationInterfaces.h"
 #include "iree/compiler/Codegen/Interfaces/PartitionableLoopsInterface.h"
 #include "iree/compiler/Codegen/Interfaces/ProcessorOpInterfaces.h"
@@ -19,7 +23,6 @@
 #include "iree/compiler/Dialect/Flow/TransformExtensions/FlowExtensions.h"
 #include "mlir/Dialect/Linalg/TransformOps/LinalgTransformOps.h"
 #include "mlir/Dialect/Linalg/Transforms/TilingInterfaceImpl.h"
-
 namespace mlir {
 namespace iree_compiler {
 
@@ -38,6 +41,7 @@ void registerCodegenInterfaces(DialectRegistry &registry) {
   registerTransformDialectLLVMGPUExtension(registry);
   linalg::registerTransformDialectExtension(registry);
   linalg::registerTilingInterfaceExternalModels(registry);
+  mlir::linalgx::registerTransformDialectExtension(registry);
 }
 
 }  // namespace iree_compiler

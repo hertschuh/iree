@@ -12,6 +12,8 @@
 #ifndef IREE_COMPILER_TOOLS_INIT_IREE_DIALECTS_H_
 #define IREE_COMPILER_TOOLS_INIT_IREE_DIALECTS_H_
 
+#include <third_party/tpp/include/Standalone/Dialect/LinalgX/LinalgXDialect.h>
+
 #include "iree-dialects/Dialect/Input/InputDialect.h"
 #include "iree-dialects/Dialect/LinalgExt/IR/LinalgExtDialect.h"
 #include "iree-dialects/Dialect/LinalgExt/Passes/Passes.h"
@@ -31,6 +33,11 @@
 #include "iree/compiler/Modules/HAL/Loader/IR/HALLoaderDialect.h"
 #include "mlir/IR/Dialect.h"
 
+// TODO: Should be tpp/ but OTOH we graduate by either upstreaming ops or
+// passing through LinalgExt, so this is really a temporary crutch that
+// won't land in IREE.
+#include "Standalone/Dialect/LinalgX/LinalgXDialect.h"
+
 namespace mlir {
 namespace iree_compiler {
 
@@ -44,6 +51,7 @@ inline void registerIreeDialects(DialectRegistry &registry) {
                   IREE::HAL::Loader::HALLoaderDialect,
                   IREE::LinalgExt::IREELinalgExtDialect,
                   mlir::linalg::transform::LinalgTransformDialect,
+                  mlir::linalgx::LinalgXDialect,
                   IREE::Stream::StreamDialect,
                   IREE::Util::UtilDialect,
                   IREE::VM::VMDialect,

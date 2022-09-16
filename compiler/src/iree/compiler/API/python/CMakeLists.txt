@@ -20,6 +20,8 @@ set(_PYTHON_INSTALL_PREFIX "python_packages/iree_compiler")
 include_directories(
   "${IREE_SOURCE_DIR}/compiler/src"
   "${IREE_SOURCE_DIR}/llvm-external-projects/iree-dialects/include"
+  # TODO: Activate when needed.
+  # "${IREE_SOURCE_DIR}/llvm-external-projects/tpp/include"
   "${IREE_SOURCE_DIR}/third_party/llvm-project/mlir/include"
   "${IREE_SOURCE_DIR}/third_party/mlir-hlo/include"
 )
