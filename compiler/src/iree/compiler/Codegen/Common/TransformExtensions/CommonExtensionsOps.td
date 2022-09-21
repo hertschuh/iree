@@ -34,6 +34,9 @@ def ApplyPatternsOp : Op<Transform_Dialect, "iree.apply_patterns",
       registered dialects and ops.
       - rank_reducing: adds patterns that results in rank-reducing behavior on
       subset-based operations.
+      - linalg_to_tpp: adds patterns that lower linalg ops to tpp.
+      - tpp_to_xsmm: adds patterns that lower tpp to xsmm.
+      - xsmm_to_func: adds patterns that lower xsmm to func calls.
 
     Return modes:
     =============
@@ -50,7 +53,10 @@ def ApplyPatternsOp : Op<Transform_Dialect, "iree.apply_patterns",
 
   let arguments = (ins PDL_Operation:$target,
                        UnitAttr:$canonicalization,
-                       UnitAttr:$rank_reducing);
+                       UnitAttr:$rank_reducing,
+                       UnitAttr:$linalg_to_tpp,
+                       UnitAttr:$tpp_to_xsmm,
+                       UnitAttr:$xsmm_to_func);
   let results = (outs PDL_Operation:$result);
 
   let assemblyFormat = "$target attr-dict";

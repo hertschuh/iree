@@ -8,6 +8,7 @@
 
 #include <iree/compiler/Dialect/HAL/IR/HALOps.h>
 
+#include "Standalone/Transforms.h"
 #include "iree-dialects/Dialect/LinalgTransform/SimplePatternRewriter.h"
 #include "iree-dialects/Dialect/LinalgTransform/StructuredTransformOpsExt.h"
 #include "iree-dialects/Transforms/ListenerGreedyPatternRewriteDriver.h"
@@ -67,6 +68,9 @@ DiagnosedSilenceableFailure transform_dialect::ApplyPatternsOp::applyToOne(
   RewritePatternSet patterns(ctx);
   if (getCanonicalization()) addAllRegisteredCanonicalizationPatterns(patterns);
   if (getRankReducing()) addRankReducingPatterns(patterns);
+  if (getLinalgToTpp()) tpp::populateLinalgToTppPatterns(patterns);
+  if (getTppToXsmm()) tpp::populateTppToXsmmPatterns(patterns);
+  if (getXsmmToFunc()) tpp::populateXsmmToFuncPatterns(patterns);
 
   TrackingListener listener(state);
   GreedyRewriteConfig config;
